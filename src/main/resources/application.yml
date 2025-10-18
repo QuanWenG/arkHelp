@@ -1,3 +1,5 @@
+server:
+  port: 8084
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -9,3 +11,9 @@ mybatis:
   type-aliases-package: fun.quanweng.arkhelp
   configuration:
     map-underscore-to-camel-case: true
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+    enable-swagger-models: true
+    swagger-model-name: 实体类列表
