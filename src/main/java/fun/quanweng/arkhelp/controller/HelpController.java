@@ -6,6 +6,7 @@ import fun.quanweng.arkhelp.result.Result;
 import fun.quanweng.arkhelp.service.HelpService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class HelpController {
 
     @PostMapping("/create")
     @Operation(summary = "创建助战表", description = "创建助战表")
-    public Result createHelpTable(@RequestBody HelpTableDTO helpTableDTO) throws Exception {
+    public Result createHelpTable(@Valid @RequestBody HelpTableDTO helpTableDTO) throws Exception {
         HelpTable helpTable = new HelpTable();
         helpTable.setMasterId(helpTableDTO.getMasterId());
         helpTable.setTableFrom(helpTableDTO.getTableFrom());

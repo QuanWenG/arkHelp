@@ -13,7 +13,7 @@ public class HelpTableDTO {
     private Long masterId;
 
     @NotNull(message = "渠道不能为空")
-    @Max(value = 1)
-    @Min(value = 0)
+    @Max(value = 1,message = "最大不超过1")
+    @Min(value = 0,message = "最小不低于0")
     private Integer tableFrom;
 }
