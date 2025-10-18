@@ -25,7 +25,7 @@ public class HelpController {
 
     @PostMapping("/create")
     @Operation(summary = "创建助战表", description = "创建助战表")
-    public Result createHelpTable(@RequestBody HelpTableDTO helpTableDTO){
+    public Result createHelpTable(@RequestBody HelpTableDTO helpTableDTO) throws Exception {
         HelpTable helpTable = new HelpTable();
         helpTable.setMasterId(helpTableDTO.getMasterId());
         helpTable.setTableFrom(helpTableDTO.getTableFrom());
