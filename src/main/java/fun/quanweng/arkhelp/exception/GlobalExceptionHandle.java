@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
-import java.lang.reflect.UndeclaredThrowableException;
 import java.util.List;
 
 @ControllerAdvice

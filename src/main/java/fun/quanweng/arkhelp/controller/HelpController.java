@@ -2,6 +2,7 @@ package fun.quanweng.arkhelp.controller;
 
 import fun.quanweng.arkhelp.pojo.dto.HelpTableDTO;
 import fun.quanweng.arkhelp.pojo.entity.HelpTable;
+import fun.quanweng.arkhelp.pojo.vo.HelpTableVO;
 import fun.quanweng.arkhelp.result.Result;
 import fun.quanweng.arkhelp.service.HelpService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +11,8 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /**
@@ -35,12 +38,16 @@ public class HelpController {
     }
 
     @DeleteMapping("/delete")
-    public Result deleteHelpTable(){
+    @Operation(summary = "删除助战表", description = "删除助战表")
+    public Result deleteHelpTable(@RequestParam Long id){
+        helpService.deleteHelpTable(id);
         return Result.success();
     }
 
     @GetMapping("/select")
-    public Result selectHelpTable(){
-        return Result.success();
+    @Operation(summary = "查询全部助战表", description = "根据自己id查询全部助战表")
+    public Result selectHelpTable(@RequestParam Long id){
+        List<HelpTableVO> helpTableVOList = helpService.selectHelpTable(id);
+        return Result.success(helpTableVOList);
     }
 }

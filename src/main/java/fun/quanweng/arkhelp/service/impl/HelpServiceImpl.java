@@ -4,10 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import fun.quanweng.arkhelp.mapper.HelpMapper;
 import fun.quanweng.arkhelp.pojo.entity.HelpTable;
+import fun.quanweng.arkhelp.pojo.vo.HelpTableVO;
 import fun.quanweng.arkhelp.service.HelpService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class HelpServiceImpl extends ServiceImpl<HelpMapper,HelpTable> implements HelpService {
@@ -25,5 +28,25 @@ public class HelpServiceImpl extends ServiceImpl<HelpMapper,HelpTable> implement
         helpTable.setCreateTime(LocalDateTime.now());
         helpTable.setUpdateTime(LocalDateTime.now());
         this.save(helpTable);
+    }
+
+    @Override
+    public List<HelpTableVO> selectHelpTable(Long id) {
+        List<HelpTableVO> helpTableVOList = new ArrayList<>();
+        List<HelpTable> helpTableList = this.list(new LambdaQueryWrapper<HelpTable>()
+                .eq(HelpTable::getMasterId, id));
+        for (HelpTable helpTable : helpTableList) {
+            HelpTableVO helpTableVO = new HelpTableVO();
+            helpTableVO.setId(helpTable.getId());
+            helpTableVO.setTableFrom(helpTable.getTableFrom());
+            helpTableVO.setUpdateTime(helpTable.getUpdateTime());
+            helpTableVOList.add(helpTableVO);
+        }
+        return helpTableVOList;
+    }
+
+    @Override
+    public void deleteHelpTable(Long id) {
+        this.removeById(id);
     }
 }
