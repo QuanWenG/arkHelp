@@ -13,6 +13,10 @@ import java.time.LocalDateTime;
 @Builder
 public class OperatorTableVO {
     /**
+     * 干员逻辑id
+     */
+    private Long id;
+    /**
      * 干员名称
      */
     private String operatorName;

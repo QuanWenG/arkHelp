@@ -127,6 +127,10 @@ public class OperatorTable {
      * 从属助战表id
      */
     private Long helpTable;
+    /**
+     * 干员状态 0删除 1正常
+     */
+    private Character status;
 
     /**
      * 创建时间

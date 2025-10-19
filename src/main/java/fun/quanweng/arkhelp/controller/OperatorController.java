@@ -60,5 +60,43 @@ public class OperatorController {
         return Result.success(operatorTableVOList);
     }
 
+    @PutMapping("/update")
+    @Operation(summary = "更新干员信息",description = "更新干员信息")
+    public Result updateOperator(@Valid @RequestBody OperatorTableDTO operatorTableDTO){
+        OperatorTable operatorTable = OperatorTable.builder()
+                .id(operatorTableDTO.getId())
+                .operatorName(operatorTableDTO.getOperatorName())
+                .operatorStar(operatorTableDTO.getOperatorStar())
+                .operatorLevel(operatorTableDTO.getOperatorLevel())
+                .operatorElite(operatorTableDTO.getOperatorElite())
+                .operatorClass(operatorTableDTO.getOperatorClass())
+                .operatorSubclass(operatorTableDTO.getOperatorSubclass())
+                .operatorPotential(operatorTableDTO.getOperatorPotential())
+                .operatorTrustRate(operatorTableDTO.getOperatorTrustRate())
+                .firstSkill(operatorTableDTO.getFirstSkill())
+                .secondSkill(operatorTableDTO.getSecondSkill())
+                .thirdSkill(operatorTableDTO.getThirdSkill())
+                .xMod(operatorTableDTO.getXMod())
+                .yMod(operatorTableDTO.getYMod())
+                .deltaMod(operatorTableDTO.getDeltaMod())
+                .alphaMod(operatorTableDTO.getAlphaMod())
+                .betaMod(operatorTableDTO.getBetaMod())
+                .gammaMod(operatorTableDTO.getGammaMod())
+                .other(operatorTableDTO.getOther())
+                .masterId(operatorTableDTO.getMasterId())
+                .masterLink(operatorTableDTO.getMasterLink())
+                .helpTable(operatorTableDTO.getHelpTable())
+                .build();
+        operatorService.updateOperator(operatorTable);
+        return Result.success();
+    }
+
+    @DeleteMapping("/delete")
+    @Operation(summary = "删除干员信息",description = "逻辑删除该干员")
+    public Result deleteOperator(@RequestParam Long id){
+        operatorService.deleteOperator(id);
+        return Result.success();
+    }
+
 
 }

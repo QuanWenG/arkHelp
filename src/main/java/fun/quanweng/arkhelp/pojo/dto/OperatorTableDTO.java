@@ -13,6 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OperatorTableDTO {
+    /**
+     * 干员逻辑id
+     */
+    private Long id;
 
     /**
      * 干员名称

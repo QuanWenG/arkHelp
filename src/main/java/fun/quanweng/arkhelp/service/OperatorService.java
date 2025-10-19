@@ -9,4 +9,8 @@ public interface OperatorService {
     void addOperator(OperatorTable operatorTable);
 
     List<OperatorTableVO> selectAllOperator(Long tableId);
+
+    void updateOperator(OperatorTable operatorTable);
+
+    void deleteOperator(Long id);
 }
