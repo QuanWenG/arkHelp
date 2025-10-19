@@ -26,7 +26,7 @@ public class UserTable {
     /**
      * 账号
      */
-    private String userName;
+    private String username;
 
     /**
      * 密码

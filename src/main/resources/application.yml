@@ -13,13 +13,12 @@ mybatis:
     map-underscore-to-camel-case: true
 # springdoc-openapi项目配置
 springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
-    tags-sorter: alpha
-    operations-sorter: alpha
-  api-docs:
-    path: /v3/api-docs
+
   group-configs:
     - group: 'default'
       paths-to-match: '/**'
       packages-to-scan: fun.quanweng.arkhelp
+jwt:
+  secret: arkHelpJwtSecretKeyForTokenGenerationAndValidation2024
+  access-token-expiration: 86400000  # 24小时 (毫秒)
+  refresh-token-expiration: 604800000 # 7天 (毫秒)
