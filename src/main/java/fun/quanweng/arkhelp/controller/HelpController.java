@@ -30,9 +30,10 @@ public class HelpController {
     @PostMapping("/create")
     @Operation(summary = "创建助战表", description = "创建助战表")
     public Result createHelpTable(@Valid @RequestBody HelpTableDTO helpTableDTO) throws Exception {
-        HelpTable helpTable = new HelpTable();
-        helpTable.setMasterId(helpTableDTO.getMasterId());
-        helpTable.setTableFrom(helpTableDTO.getTableFrom());
+        HelpTable helpTable = HelpTable.builder()
+                .masterId(helpTableDTO.getMasterId())
+                .tableFrom(helpTableDTO.getTableFrom())
+                .build();
         helpService.createHelpTable(helpTable);
         return Result.success();
     }
@@ -46,7 +47,7 @@ public class HelpController {
 
     @GetMapping("/select")
     @Operation(summary = "查询全部助战表", description = "根据自己id查询全部助战表")
-    public Result selectHelpTable(@RequestParam Long id){
+    public Result<List<HelpTableVO>> selectHelpTable(@RequestParam Long id){
         List<HelpTableVO> helpTableVOList = helpService.selectHelpTable(id);
         return Result.success(helpTableVOList);
     }

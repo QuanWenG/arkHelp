@@ -36,10 +36,11 @@ public class HelpServiceImpl extends ServiceImpl<HelpMapper,HelpTable> implement
         List<HelpTable> helpTableList = this.list(new LambdaQueryWrapper<HelpTable>()
                 .eq(HelpTable::getMasterId, id));
         for (HelpTable helpTable : helpTableList) {
-            HelpTableVO helpTableVO = new HelpTableVO();
-            helpTableVO.setId(helpTable.getId());
-            helpTableVO.setTableFrom(helpTable.getTableFrom());
-            helpTableVO.setUpdateTime(helpTable.getUpdateTime());
+            HelpTableVO helpTableVO = HelpTableVO.builder()
+                    .id(helpTable.getId())
+                    .tableFrom(helpTable.getTableFrom())
+                    .updateTime(helpTable.getUpdateTime())
+                    .build();
             helpTableVOList.add(helpTableVO);
         }
         return helpTableVOList;

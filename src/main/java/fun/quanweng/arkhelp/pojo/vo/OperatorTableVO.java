@@ -1,7 +1,5 @@
-package fun.quanweng.arkhelp.pojo.entity;
+package fun.quanweng.arkhelp.pojo.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,20 +7,11 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-/**
- * 干员信息
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OperatorTable {
-    /**
-     * 逻辑id
-     */
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
-    private Long id;
-
+public class OperatorTableVO {
     /**
      * 干员名称
      */
@@ -122,16 +111,6 @@ public class OperatorTable {
      * 主人联系方式
      */
     private String masterLink;
-
-    /**
-     * 从属助战表id
-     */
-    private Long helpTable;
-
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
 
     /**
      * 更新时间
