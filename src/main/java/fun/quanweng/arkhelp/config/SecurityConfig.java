@@ -36,12 +36,12 @@ public class SecurityConfig {
                 .authenticationEntryPoint((request, response, authException) -> {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.setContentType("application/json;charset=UTF-8");
-                    response.getWriter().write("{\"code\":401,\"message\":\"未认证或令牌缺失\",\"data\":null}");
+                    response.getWriter().write("{\"code\":10401,\"message\":\"未认证或令牌缺失\",\"data\":null}");
                 })
                 .accessDeniedHandler((request, response, accessDeniedException) -> {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     response.setContentType("application/json;charset=UTF-8");
-                    response.getWriter().write("{\"code\":403,\"message\":\"无权限访问\",\"data\":null}");
+                    response.getWriter().write("{\"code\":10403,\"message\":\"无权限访问\",\"data\":null}");
                 })
             )
             // 配置URL授权

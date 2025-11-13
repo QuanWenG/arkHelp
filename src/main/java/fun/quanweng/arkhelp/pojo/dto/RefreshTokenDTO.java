@@ -1,6 +1,6 @@
 package fun.quanweng.arkhelp.pojo.dto;
 
-import jakarta.validation.constraints.NotEmpty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,10 +11,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Schema(description = "刷新令牌请求")
 public class RefreshTokenDTO {
     /**
      * 刷新令牌
      */
-    @NotEmpty(message = "刷新令牌不能为空")
+    @Schema(description = "刷新令牌")
     private String refreshToken;
 }
