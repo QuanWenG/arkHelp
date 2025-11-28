@@ -111,4 +111,9 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper,UserTable> impleme
         
         return loginInfoVO;
     }
+
+    @Override
+    public UserTable getUserById(Long userId) {
+        return this.getById(userId);
+    }
 }

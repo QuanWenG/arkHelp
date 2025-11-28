@@ -1,9 +1,11 @@
 package fun.quanweng.arkhelp.controller;
 
+import fun.quanweng.arkhelp.common.JwtUtil;
 import fun.quanweng.arkhelp.pojo.dto.RefreshTokenDTO;
 import fun.quanweng.arkhelp.pojo.dto.UserDTO;
 import fun.quanweng.arkhelp.pojo.entity.UserTable;
 import fun.quanweng.arkhelp.pojo.vo.LoginInfoVO;
+import fun.quanweng.arkhelp.pojo.vo.UserInfoVO;
 import fun.quanweng.arkhelp.enums.ResultCode;
 import fun.quanweng.arkhelp.result.Result;
 import fun.quanweng.arkhelp.service.LoginService;
@@ -13,11 +15,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.util.StringUtils;
+
+import java.time.format.DateTimeFormatter;
 
 
 /**
@@ -31,6 +32,7 @@ import org.springframework.util.StringUtils;
 public class LoginController {
 
     private LoginService loginService;
+    private JwtUtil jwtUtil;
 
     @PostMapping("/register")
     @Operation(summary = "注册账号",description = "注册")
@@ -83,5 +85,36 @@ public class LoginController {
         dto.setRefreshToken(token);
         LoginInfoVO loginInfoVO = loginService.refreshToken(dto);
         return Result.success(loginInfoVO);
+    }
+
+    @GetMapping("/info")
+    @Operation(summary = "获取当前用户信息",description = "获取当前登录用户的信息")
+    public Result<UserInfoVO> getUserInfo(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (!StringUtils.hasText(authHeader) || !authHeader.startsWith("Bearer ")) {
+            return Result.error(ResultCode.UNAUTHORIZED.getCode(), "未授权");
+        }
+
+        String token = authHeader.substring(7);
+        if (!jwtUtil.validateToken(token)) {
+            return Result.error(ResultCode.UNAUTHORIZED.getCode(), "令牌无效");
+        }
+
+        Long userId = jwtUtil.getUserIdFromToken(token);
+        String username = jwtUtil.getUsernameFromToken(token);
+
+        UserTable userTable = loginService.getUserById(userId);
+        if (userTable == null) {
+            return Result.error(ResultCode.USER_NOT_EXIST.getCode(), "用户不存在");
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        UserInfoVO userInfoVO = UserInfoVO.builder()
+                .id(userTable.getId())
+                .username(userTable.getUsername())
+                .createTime(userTable.getCreateTime() != null ? userTable.getCreateTime().format(formatter) : null)
+                .build();
+
+        return Result.success(userInfoVO);
     }
 }

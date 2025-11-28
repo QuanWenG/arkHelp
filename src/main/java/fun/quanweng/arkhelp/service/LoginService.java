@@ -11,4 +11,6 @@ public interface LoginService {
     LoginInfoVO login(UserDTO userDTO) throws Exception;
     
     LoginInfoVO refreshToken(RefreshTokenDTO refreshTokenDTO) throws Exception;
+    
+    UserTable getUserById(Long userId);
 }
