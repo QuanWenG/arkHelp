@@ -36,7 +36,7 @@ public class UserTable {
     /**
      * 账号状态
      */
-    private Character status;
+    private Short status;
 
     /**
      * 创建时间

@@ -7,9 +7,11 @@ import fun.quanweng.arkhelp.common.PasswordUtil;
 import fun.quanweng.arkhelp.mapper.LoginMapper;
 import fun.quanweng.arkhelp.pojo.dto.RefreshTokenDTO;
 import fun.quanweng.arkhelp.pojo.dto.UserDTO;
+import fun.quanweng.arkhelp.pojo.entity.UserInfoTable;
 import fun.quanweng.arkhelp.pojo.entity.UserTable;
 import fun.quanweng.arkhelp.pojo.vo.LoginInfoVO;
 import fun.quanweng.arkhelp.service.LoginService;
+import fun.quanweng.arkhelp.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,23 +22,36 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper,UserTable> impleme
 
     @Autowired
     private PasswordUtil passwordUtil;
-    
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private UserInfoServiceImpl userInfoServiceImpl;
 
     @Override
     public void register(UserTable userTable) throws Exception {
-        if(this.getOne(new LambdaQueryWrapper<UserTable>()
-                .eq(UserTable::getUsername, userTable.getUsername())) != null){
+        if (this.getOne(new LambdaQueryWrapper<UserTable>()
+                .eq(UserTable::getUsername, userTable.getUsername())) != null) {
             throw new Exception("该账号已经存在");
         }
-        
+
         // 加密密码
         userTable.setPassword(passwordUtil.encodePassword(userTable.getPassword()));
-        userTable.setStatus('1'); // 设置账号状态为正常
+        userTable.setStatus((short) 1); // 设置账号状态为正常
         userTable.setCreateTime(LocalDateTime.now());
         userTable.setUpdateTime(LocalDateTime.now());
         this.save(userTable);
+
+        // 创建用户信息表记录
+        Long userId = userTable.getId();
+        UserInfoTable userInfoTable = UserInfoTable.builder()
+                .id(userId)
+                .username(userTable.getUsername())
+                .name(userTable.getUsername())
+                .status((short) 1)
+                .createTime(LocalDateTime.now())
+                .updateTime(LocalDateTime.now())
+                .build();
+        userInfoServiceImpl.save(userInfoTable);
     }
 
     @Override

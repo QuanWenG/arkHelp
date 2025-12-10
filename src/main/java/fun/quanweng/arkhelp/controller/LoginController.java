@@ -28,11 +28,10 @@ import java.time.format.DateTimeFormatter;
 @RestController
 @RequestMapping("/user")
 @AllArgsConstructor
-@Tag(name = "用户相关接口",description = "用户相关")
+@Tag(name = "用户登录相关接口",description = "登录相关")
 public class LoginController {
 
     private LoginService loginService;
-    private JwtUtil jwtUtil;
 
     @PostMapping("/register")
     @Operation(summary = "注册账号",description = "注册")
@@ -85,36 +84,5 @@ public class LoginController {
         dto.setRefreshToken(token);
         LoginInfoVO loginInfoVO = loginService.refreshToken(dto);
         return Result.success(loginInfoVO);
-    }
-
-    @GetMapping("/info")
-    @Operation(summary = "获取当前用户信息",description = "获取当前登录用户的信息")
-    public Result<UserInfoVO> getUserInfo(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
-        if (!StringUtils.hasText(authHeader) || !authHeader.startsWith("Bearer ")) {
-            return Result.error(ResultCode.UNAUTHORIZED.getCode(), "未授权");
-        }
-
-        String token = authHeader.substring(7);
-        if (!jwtUtil.validateToken(token)) {
-            return Result.error(ResultCode.UNAUTHORIZED.getCode(), "令牌无效");
-        }
-
-        Long userId = jwtUtil.getUserIdFromToken(token);
-        String username = jwtUtil.getUsernameFromToken(token);
-
-        UserTable userTable = loginService.getUserById(userId);
-        if (userTable == null) {
-            return Result.error(ResultCode.USER_NOT_EXIST.getCode(), "用户不存在");
-        }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        UserInfoVO userInfoVO = UserInfoVO.builder()
-                .id(userTable.getId())
-                .username(userTable.getUsername())
-                .createTime(userTable.getCreateTime() != null ? userTable.getCreateTime().format(formatter) : null)
-                .build();
-
-        return Result.success(userInfoVO);
     }
 }
