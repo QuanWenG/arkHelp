@@ -12,11 +12,13 @@ import fun.quanweng.arkhelp.pojo.entity.UserTable;
 import fun.quanweng.arkhelp.pojo.vo.LoginInfoVO;
 import fun.quanweng.arkhelp.service.LoginService;
 import fun.quanweng.arkhelp.service.UserInfoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @Service
 public class LoginServiceImpl extends ServiceImpl<LoginMapper,UserTable> implements LoginService {
 
@@ -70,7 +72,8 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper,UserTable> impleme
         }
         
         // 检查账号状态
-        if (user.getStatus() != '1') {
+        if (user.getStatus() != 1) {
+            log.info(String.valueOf(user.getStatus()));
             throw new Exception("账号已被禁用");
         }
         
